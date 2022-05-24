@@ -1,5 +1,5 @@
 import React , {useState} from "react";
-export default (props)=>{
+export default function ImagePopup(props){
   
    function  HandleCloseButton (){
     console.log("shit");
