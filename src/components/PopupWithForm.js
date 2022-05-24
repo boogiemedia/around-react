@@ -28,13 +28,7 @@ return (
       <button className="popup__save-button popup__save-button_disabled" type="submit">Create</button>
     </form>
   </div>
-    <div className="popup popup_type_preview">  
-    <div className="popup__preview-box">
-      <button type="button" className="popup__close-button" aria-label="close-button" onClick={props.closePopUp}></button>
-      <img src=" " alt="placeholder" className="popup__preview"/>
-      <p className="popup__preview-text"></p>
-    </div>
-  </div>
+
 
   <div className="popup popup_type_delete-card">
     <form method="post" className="popup__form popup__form_type_delete" id="delete-form">

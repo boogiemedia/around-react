@@ -1,20 +1,3 @@
-// import React , {useEffect} from "react";
-// export default function Api(){
-
-
-
-
-//     fetch("https://around.nomoreparties.co/v1/group-42/cards", {
-//   headers: {
-//     authorization: "c56e30dc-2883-4270-a59e-b2f7bae969c6"
-//   }
-// })
-//   .then(res => res.json())
-//   .then((result) => {
-//     console.log(result);
-//   }); 
-// }
-
 
 const api = {
   genericCall : async (url) =>{

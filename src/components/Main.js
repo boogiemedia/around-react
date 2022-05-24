@@ -3,6 +3,7 @@ import Popins from "../components/PopupWithForm";
 import Card from "./Card";
 import api from "../blocks/utils/api";
 
+
 export default function Main() {
   const [isOpen, setIsOpen] = useState(false);
   const [callpPopup, setCallpopup] = useState("");
@@ -16,7 +17,6 @@ export default function Main() {
     setUserProfile(dataProfile);
   }
   useEffect(() => {
-    console.log("adasdasas");
     getAPIData();
   }, []);
 
