@@ -10,8 +10,10 @@ export default function Main() {
   const [userProfile, setUserProfile] = useState({});
 
   async function getApiData() {
-    const dataCards = await api.getCards();
-    const dataProfile = await api.getProfile();
+    const dataCards = await api.getCards()
+    .catch((res) => console.log("there is error in rendering cards", res ));
+    const dataProfile = await api.getProfile()
+    .catch((res) => console.log("there is error in rendering info", res ));
     setUserCards(dataCards);
     setUserProfile(dataProfile);
   }
