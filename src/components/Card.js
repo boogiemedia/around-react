@@ -1,14 +1,11 @@
 import React, {useState} from "react"
-import FuckMyLife from "./ImagePopup"
+import ImagePopup from "./ImagePopup"
 export default function Card(props){
  
  
   const [isOpen, setIsOpen] = useState(false);
-    function HandleCardClick(){
+    function handleCardClick(){
         setIsOpen(!isOpen)
-    }
-    function HandleCloseButton() {
-      setIsOpen(false);
     }
     function closePreview (){
       setIsOpen(false)
@@ -21,7 +18,7 @@ export default function Card(props){
     console.log(link)
     return(
       <>
-        <div className="elements__block" onClick = {HandleCardClick}>
+        <div className="elements__block" onClick = {handleCardClick}>
           <button className="elements__trash"></button>
           <div className="elements__cover" style={{backgroundImage: `url(${link})`  }} onclick= {openPreview}></div>
           <h2 className="elements__title">{name}</h2>
@@ -30,7 +27,7 @@ export default function Card(props){
           <p className="elements__like-counter">{likes.length}</p>
           </div>
         </div>
-          <FuckMyLife  show={isOpen} name={name} link={link} closeButton = {closePreview} />
+          <ImagePopup  show={isOpen} name={name} link={link} closeButton = {closePreview} />
             
     </>
     )

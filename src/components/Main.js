@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
-import Popins from "../components/PopupWithForm";
+import PopupWithForm from "../components/PopupWithForm";
 import Card from "./Card";
 import api from "../blocks/utils/api";
 
-
 export default function Main() {
   const [isOpen, setIsOpen] = useState(false);
-  const [callpPopup, setCallpopup] = useState("");
+  const [callpPopup, setCallPopup] = useState("");
   const [userCards, setUserCards] = useState([]);
   const [userProfile, setUserProfile] = useState({});
 
-  async function getAPIData() {
-    const data_cards = await api.getCards();
+  async function getApiData() {
+    const dataCards = await api.getCards();
     const dataProfile = await api.getProfile();
-    setUserCards(data_cards);
+    setUserCards(dataCards);
     setUserProfile(dataProfile);
   }
   useEffect(() => {
-    getAPIData();
+    getApiData();
   }, []);
 
   async function popupOpener(ev) {
     ev.preventDefault();
-    setCallpopup(ev.target.id);
+    setCallPopup(ev.target.id);
     setIsOpen(!isOpen);
   }
   function HandleCloseButton() {
@@ -67,7 +66,7 @@ export default function Main() {
         ></button>
       </section>
       <section className="elements">
-        <Popins
+        <PopupWithForm
           isOpen={isOpen}
           cssClassName={callpPopup}
           closePopUp={HandleCloseButton}
