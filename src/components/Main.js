@@ -73,9 +73,9 @@ export default function Main() {
           cssClassName={callpPopup}
           closePopUp={HandleCloseButton}
         />
-        {userCards.map((ele) => {
-          return <Card item={ele} />;
-        })}
+        {userCards.map((e) => {
+          return <Card item={e}  key ={e._id}/>;
+        })} 
       </section>
     </main>
   );
