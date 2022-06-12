@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import ImagePopup from "./ImagePopup";
+
+
 export default function Card(props) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  function closePreview() {
-    setIsOpen(false);
-  }
-
-  function handleCardClick() {
-    setIsOpen(!isOpen);
-  }
-  const { name, link, likes } = 
+  const { name, link, likes, _id } = 
   props.item;
+  const {isOpen,setOpen}= useState(false)
+ function handleCardClick(){
+   setOpen(!isOpen)
+
+ }
+
   return (
     <>
-      <div className="elements__block" >
+      <div className="elements__block" key={_id}>
         <button className="elements__trash"></button>
         <div
           className="elements__cover"
@@ -27,12 +25,7 @@ export default function Card(props) {
           <p className="elements__like-counter">{likes.length}</p>
         </div>
       </div>
-      <ImagePopup
-        show={isOpen}
-        name={name}
-        link={link}
-        closeButton={closePreview}
-      />
+     
     </>
   );
 }
