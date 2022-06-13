@@ -1,18 +1,14 @@
-import React, { useState } from "react";
-
+import React from "react";
 
 export default function Card(props) {
-  const { name, link, likes, _id } = 
-  props.item;
-  const {isOpen,setOpen}= useState(false)
- function handleCardClick(){
-   setOpen(!isOpen)
-
- }
-
-  return (
+  const { name, link, likes, _id } = props.item;
+  
+  function handleCardClick() {
+    props.click(true);
+    props.setActiveCard(props.item);
+  }  return (
     <>
-      <div className="elements__block" key={_id}>
+      <div className="elements__block" key={_id} >
         <button className="elements__trash"></button>
         <div
           className="elements__cover"
@@ -25,7 +21,6 @@ export default function Card(props) {
           <p className="elements__like-counter">{likes.length}</p>
         </div>
       </div>
-     
     </>
   );
 }
