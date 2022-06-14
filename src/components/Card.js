@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Card(props) {
-  const { name, link, likes, _id } = props.item;
+  const { name, link, likes} = props.item;
 
   function handleCardClick() {
     props.click(true);
