@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import api from "../blocks/utils/api";
+import React, { useState } from "react";
 import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
@@ -10,48 +9,29 @@ import PopupWithForm from "./PopupWithForm";
 // .......End of imports..........................
 
 function App() {
-  //..api states..............................
-  const [Cards, setCards] = useState([]);
-  const [activeCard, setActiveCard] = useState({})
-  const [userProfile, setUserProfile] = useState({});
-
-  //..get api........................................
-  async function getApiData() {
-    const dataCards = await api
-      .getCards()
-      .catch((res) => console.log("there is error in rendering cards", res));
-    const dataProfile = await api
-      .getProfile()
-      .catch((res) => console.log("there is error in rendering info", res));
-    setCards(dataCards);
-    setUserProfile(dataProfile);
-  }
-  useEffect(() => {
-    getApiData();
-  }, []);
-  //...................................end of api............................................................
   const [isCardOpen, setCardOpen] = useState(false);
   const [isAvatarOpen, setAvatarIsOpen] = useState(false);
   const [isProfileOpen, setProfileOpen] = useState(false);
-  const [isImagePopupOpen, setImagePopup] = useState(false)
+  const [isImagePopupOpen, setImagePopup] = useState(false);
   //.........end of states.......................................................................
-  function HandleCloseButtonClick() {
+  function handleCloseButtonClick() {
     setCardOpen(false);
     setAvatarIsOpen(false);
     setProfileOpen(false);
-    setImagePopup(false)
+    setImagePopup(false);
   }
   //................ end Of Close Button.................................................
 
   //................preview.............................
-  function PreviewPopup(){
-    return(
-      <ImagePopup 
-      isOpen= {isImagePopupOpen}
-      isClose= {HandleCloseButtonClick}
-      item = {activeCard}
+  const [activeCard, setActiveCard] = useState({});
+  function PreviewPopup() {
+    return (
+      <ImagePopup
+        onOpen={isImagePopupOpen}
+        onClose={handleCloseButtonClick}
+        item={activeCard}
       />
-    )
+    );
   }
   //.............Avatar-Popup.....................................
   function AvatarPopup() {
@@ -61,7 +41,7 @@ function App() {
         title="Change profile picture"
         button="Save"
         isOpen={isAvatarOpen}
-        isClose={HandleCloseButtonClick}
+        isClose={handleCloseButtonClick}
       >
         <input
           type="url"
@@ -86,7 +66,7 @@ function App() {
         title="Edit profile"
         button="Save"
         isOpen={isProfileOpen}
-        isClose={HandleCloseButtonClick}
+        isClose={handleCloseButtonClick}
       >
         <input
           id="popup-input-type-name"
@@ -123,7 +103,7 @@ function App() {
         title="Edit card"
         button="Save"
         isOpen={isCardOpen}
-        isClose={HandleCloseButtonClick}
+        isClose={handleCloseButtonClick}
       >
         <input
           id="popup-input-type-title"
@@ -149,23 +129,24 @@ function App() {
           required
         />
 
-        <span className="popup__input-span" id="popup-input-type-url-error"></span>
+        <span
+          className="popup__input-span"
+          id="popup-input-type-url-error"
+        ></span>
       </PopupWithForm>
     );
   }
-  //.........................End Of Popups.........................................
+  //.........................End Of Popups Components.........................................
 
   return (
     <div className="App">
       <Header />
       <Main
-        dataCards={Cards}
-        userProfile={userProfile}
-        setActiveCard = {setActiveCard}
+        setActiveCard={setActiveCard}
         setAvatarIsOpen={setAvatarIsOpen}
         setProfileOpen={setProfileOpen}
         setCardOpen={setCardOpen}
-        setImagePopup= {setImagePopup}
+        setImagePopup={setImagePopup}
       />
       <Footer />
       <AvatarPopup />

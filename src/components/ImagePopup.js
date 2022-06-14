@@ -1,10 +1,9 @@
 import React from "react";
 export default function ImagePopup(props) {
-
   return (
     <div
       className={
-        props.isOpen
+        props.onOpen
           ? `popup popup__preview popup_oppened`
           : `popup popup__preview`
       }
@@ -14,9 +13,13 @@ export default function ImagePopup(props) {
           type="button"
           className="popup__close-button"
           aria-label="close-button"
-          onClick={props.isClose}
+          onClick={props.onClose}
         ></button>
-        <img src={props.item.link} alt={props.item.name} className="popup__preview" />
+        <img
+          src={props.item.link}
+          alt={props.item.name}
+          className="popup__preview"
+        />
         <p className="popup__preview-text">{props.item.name}</p>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 export default function PopupWithForm(props) {
   return (
-    <>
+    
       <div
         className={
           props.isOpen
@@ -23,6 +23,6 @@ export default function PopupWithForm(props) {
           </button>
         </form>
       </div>
-    </>
+    
   );
 }
