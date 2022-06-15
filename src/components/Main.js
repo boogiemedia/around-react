@@ -1,31 +1,36 @@
-import React, {useState, useEffect} from "react";
-import {api} from "../utils/api";
+import React, { useState, useEffect } from "react";
+import { api } from "../utils/api";
 import Card from "./Card";
 
 export default function Main(props) {
-    //..api states..............................
-    const [cards, setCards] = useState([]);
-    const [userProfile, setUserProfile] = useState({});
-
+  //..api states..............................
+  const [cards, setCards] = useState([]);
+  const [userProfile, setUserProfile] = useState({});
 
   //..Get Cards Api.........
-  function getApiData(){
+  function getApiData() {
     //......Cards info
-    api.getInitialCards().then((cards) => { 
-      setCards(cards); 
-    })
-    .catch((cards) => console.log("there is error in cards api", cards))
+    api
+      .getInitialCards()
+      .then((cards) => {
+        setCards(cards);
+      })
+      .catch((cards) => console.log("there is error in cards api", cards));
     //......Get Profile Info
-    api.getProfile().then((profile) => { 
-      setUserProfile(profile)
-    })
-    .catch((profile) => console.log("there is error in profile api", profile))
+    api
+      .getProfile()
+      .then((profile) => {
+        setUserProfile(profile);
+      })
+      .catch((profile) =>
+        console.log("there is error in profile api", profile)
+      );
   }
   useEffect(() => {
     getApiData();
   }, []);
-  
- //........................End of api..........................
+
+  //........................End of api..........................
 
   function handleEditAvatarClick() {
     props.setAvatarIsOpen(true);
@@ -37,8 +42,6 @@ export default function Main(props) {
     props.setCardOpen(true);
   }
   //.......................................end Of states.............
-
-  
 
   return (
     <main className="main">
@@ -80,11 +83,16 @@ export default function Main(props) {
       </section>
       <section className="elements">
         {cards.map((data) => {
-          return (<Card key={data._id} item={data} click ={props.setImagePopup} setActiveCard = {props.setActiveCard}/>)
-      
+          return (
+            <Card
+              key={data._id}
+              item={data}
+              click={props.setImagePopup}
+              setActiveCard={props.setActiveCard}
+            />
+          );
         })}
       </section>
-     
     </main>
   );
 }

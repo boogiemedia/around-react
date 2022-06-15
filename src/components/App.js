@@ -41,7 +41,7 @@ function App() {
         title="Change profile picture"
         button="Save"
         isOpen={isAvatarOpen}
-        isClose={handleCloseButtonClick}
+        onClose={handleCloseButtonClick}
       >
         <input
           type="url"
@@ -66,7 +66,7 @@ function App() {
         title="Edit profile"
         button="Save"
         isOpen={isProfileOpen}
-        isClose={handleCloseButtonClick}
+        onClose={handleCloseButtonClick}
       >
         <input
           id="popup-input-type-name"
@@ -103,7 +103,7 @@ function App() {
         title="Edit card"
         button="Save"
         isOpen={isCardOpen}
-        isClose={handleCloseButtonClick}
+        onClose={handleCloseButtonClick}
       >
         <input
           id="popup-input-type-title"
