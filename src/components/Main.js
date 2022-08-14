@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../utils/api";
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function Main(props) {
+  const currentUser = React.useContext(CurrentUserContext)
   //..api states..............................
   const [cards, setCards] = useState([]);
-  const [userProfile, setUserProfile] = useState({});
+  const [card, setCard] = useState([])
 
   //..Get Cards Api.........
   function getApiData() {
@@ -17,14 +19,6 @@ export default function Main(props) {
       })
       .catch((cards) => console.log("there is error in cards api", cards));
     //......Get Profile Info
-    api
-      .getProfile()
-      .then((profile) => {
-        setUserProfile(profile);
-      })
-      .catch((profile) =>
-        console.log("there is error in profile api", profile)
-      );
   }
   useEffect(() => {
     getApiData();
@@ -41,7 +35,13 @@ export default function Main(props) {
   function handleAddPlaceClick() {
     props.setCardOpen(true);
   }
-  //.......................................end Of states.............
+  function handleCardLike(){
+    const isLiked = card.likes //.some(user => user._id === currentUser._id);
+    console.log("test", isLiked)
+    //const isLiked = cards.likes.some(user => user._id === currentUser._id);
+   // isLiked ? api.deleteLike(card._Id) :
+  }
+  //.......................................end Of handlers.............
 
   return (
     <main className="main">
@@ -53,7 +53,7 @@ export default function Main(props) {
             className="profile__avatar-middle"
           ></div>
           <img
-            src={userProfile.avatar}
+            src={currentUser.avatar}
             id="profile-avatar"
             alt="profile-avatar"
             className="profile__avatar"
@@ -62,7 +62,7 @@ export default function Main(props) {
         </div>
 
         <div className="profile__info-block">
-          <h1 className="profile__info">{userProfile.name}</h1>
+          <h1 className="profile__info">{currentUser.name}</h1>
           <button
             id="profile-edditor"
             onClick={handleEditProfileClick}
@@ -70,7 +70,7 @@ export default function Main(props) {
             className="profile__edit-button"
             aria-label="edit-button"
           ></button>
-          <p className="profile__sub-info">{userProfile.about}</p>
+          <p className="profile__sub-info">{currentUser.about}</p>
         </div>
 
         <button
@@ -89,6 +89,8 @@ export default function Main(props) {
               item={data}
               click={props.setImagePopup}
               setActiveCard={props.setActiveCard}
+              card ={setCard}
+              onCardLike= {handleCardLike}
             />
           );
         })}

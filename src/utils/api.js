@@ -20,17 +20,39 @@ class Api {
       headers: { authorization: this._token },
     }).then(this._getResponseData);
   }
+  addLike(cardId) {
+    return fetch(`${this._url}/cards/likes/${cardId} `, {
+      method: "PUT",
+
+      headers: {
+        authorization: this._token,
+        "Content-Type": "application/json",
+      },
+    }).then(this._getResponseData);
+  }
+
+  deleteLike(cardId) {
+    return fetch(`${this._url}/cards/likes/${cardId} `, {
+      method: "DELETE",
+
+      headers: {
+        authorization: this._token,
+        "Content-Type": "application/json",
+      },
+    }).then(this._getResponseData);
+  }
 
   //.......................End of cards api`s...................
 
-  getProfile() {
+  getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       headers: { authorization: this._token },
     }).then(this._getResponseData);
   }
 
-  //.....................................................................................................................
+  //..................End of getting Api...................................................................................................
 }
+
 export const api = new Api({
   baseUrl: "https://around.nomoreparties.co/v1/group-12",
   token: "3b0591f5-8d80-48af-bfb2-1499d5045304",

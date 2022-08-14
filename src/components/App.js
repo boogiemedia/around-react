@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
-import PopupWithForm from "./PopupWithForm";
+import { api } from "../utils/api";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
+//.......popups import
+import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
+import EditPlacePopup from "./AddPlacePopup";
 // .......End of imports..........................
 
 function App() {
@@ -13,7 +18,23 @@ function App() {
   const [isAvatarOpen, setAvatarIsOpen] = useState(false);
   const [isProfileOpen, setProfileOpen] = useState(false);
   const [isImagePopupOpen, setImagePopup] = useState(false);
+  const [ currentUser, setCurentUser] = useState({})
   //.........end of states.......................................................................
+ 
+  function getApiData() {
+    api
+      .getUserInfo()
+      .then((profile) => {
+        setCurentUser(profile);
+      })
+      .catch((profile) =>
+        console.log("there is error in profile api", profile)
+      );
+  }
+  useEffect(() => {
+    getApiData();
+  }, []);
+  //.................end of userinfo call......................................................
   function handleCloseButtonClick() {
     setCardOpen(false);
     setAvatarIsOpen(false);
@@ -33,113 +54,10 @@ function App() {
       />
     );
   }
-  //.............Avatar-Popup.....................................
-  function AvatarPopup() {
-    return (
-      <PopupWithForm
-        name="change-avatar"
-        title="Change profile picture"
-        button="Save"
-        isOpen={isAvatarOpen}
-        onClose={handleCloseButtonClick}
-      >
-        <input
-          type="url"
-          id="poppup-input-type-url"
-          className="popup__input popup__input_type_link"
-          name="avatar"
-          placeholder="image link"
-          required
-        />
-        <span
-          className="popup__input-span"
-          id="popup-input-type-url-error-picture-changer"
-        ></span>
-      </PopupWithForm>
-    );
-  }
-  //...........Profile-Popup.............................................................
-  function ProfilePopup() {
-    return (
-      <PopupWithForm
-        name="profile-edditor"
-        title="Edit profile"
-        button="Save"
-        isOpen={isProfileOpen}
-        onClose={handleCloseButtonClick}
-      >
-        <input
-          id="popup-input-type-name"
-          className="popup__input popup__input_type_name"
-          name="name"
-          required
-          minLength="2"
-          maxLength="40"
-        />
-        <span
-          className="popup__input-span"
-          id="popup-input-type-name-error"
-        ></span>
-        <input
-          id="popup-input-type-description"
-          className=" popup__input popup__input_type_description"
-          name="about"
-          required
-          minLength="2"
-          maxLength="200"
-        />
-        <span
-          className="popup__input-span"
-          id="popup-input-type-description-error"
-        ></span>
-      </PopupWithForm>
-    );
-  }
-  //......Edit-place-popup................................................
-  function EditPlacePopup() {
-    return (
-      <PopupWithForm
-        name="card-editor"
-        title="Edit card"
-        button="Save"
-        isOpen={isCardOpen}
-        onClose={handleCloseButtonClick}
-      >
-        <input
-          id="popup-input-type-title"
-          className="popup__input popup__input_type_title"
-          name="name"
-          placeholder="Title"
-          required
-          minLength="2"
-          maxLength="40"
-        />
-
-        <span
-          className="popup__input-span"
-          id="popup-input-type-title-error"
-        ></span>
-
-        <input
-          type="url"
-          id="popup-input-type-url"
-          className="popup__input popup__input_type_link"
-          name="link"
-          placeholder="image link"
-          required
-        />
-
-        <span
-          className="popup__input-span"
-          id="popup-input-type-url-error"
-        ></span>
-      </PopupWithForm>
-    );
-  }
-  //.........................End Of Popups Components.........................................
 
   return (
     <div className="App">
+     <CurrentUserContext.Provider value ={currentUser}>
       <Header />
       <Main
         setActiveCard={setActiveCard}
@@ -149,10 +67,12 @@ function App() {
         setImagePopup={setImagePopup}
       />
       <Footer />
-      <AvatarPopup />
-      <ProfilePopup />
-      <EditPlacePopup />
+      <EditAvatarPopup isOpen={isAvatarOpen}
+        onClose={handleCloseButtonClick}/>
+      <EditProfilePopup isOpen= {isProfileOpen} onClose= {handleCloseButtonClick}/>
+      <EditPlacePopup isOpen= {isCardOpen} onClose= {handleCloseButtonClick}/>
       <PreviewPopup />
+      </CurrentUserContext.Provider>
     </div>
   );
 }
