@@ -4,10 +4,9 @@ import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function Main(props) {
-  const currentUser = React.useContext(CurrentUserContext)
+  const currentUser = React.useContext(CurrentUserContext);
   //..api states..............................
   const [cards, setCards] = useState([]);
-  const [card, setCard] = useState([])
 
   //..Get Cards Api.........
   function getApiData() {
@@ -35,11 +34,27 @@ export default function Main(props) {
   function handleAddPlaceClick() {
     props.setCardOpen(true);
   }
-  function handleCardLike(){
-    const isLiked = card.likes //.some(user => user._id === currentUser._id);
-    console.log("test", isLiked)
-    //const isLiked = cards.likes.some(user => user._id === currentUser._id);
-   // isLiked ? api.deleteLike(card._Id) :
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    const removeLike = api.deleteLike(card._id).then((newCard) => {
+      setCards((state) =>
+        state.map((currentCard) =>
+          currentCard._id === card._id ? newCard : currentCard
+        )
+      );
+    });
+    const addLike = api.addLike(card._id).then((newCard) => {
+      setCards((state) =>
+        state.map((currentCard) =>
+          currentCard._id === card._id ? newCard : currentCard
+        )
+      );
+    });
+    const changeLikeStatus = isLiked ? removeLike : addLike;
+  }
+  function handleCardDelete(id) {
+    api.deleteCard(id).then((res) => console.log(res))
+    console.log("delete button", id);
   }
   //.......................................end Of handlers.............
 
@@ -89,8 +104,8 @@ export default function Main(props) {
               item={data}
               click={props.setImagePopup}
               setActiveCard={props.setActiveCard}
-              card ={setCard}
-              onCardLike= {handleCardLike}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
             />
           );
         })}

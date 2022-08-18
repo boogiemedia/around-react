@@ -34,7 +34,10 @@ function App() {
   useEffect(() => {
     getApiData();
   }, []);
+
+
   //.................end of userinfo call......................................................
+ 
   function handleCloseButtonClick() {
     setCardOpen(false);
     setAvatarIsOpen(false);
@@ -54,6 +57,8 @@ function App() {
       />
     );
   }
+  //..............CardLike..............................
+  
 
   return (
     <div className="App">

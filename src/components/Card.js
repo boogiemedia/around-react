@@ -3,15 +3,15 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function Card(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  const { name, link, likes, _id } = props.item;
+  const { name, link, likes, owner, _id } = props.item;
 
-  const isOwn = _id === currentUser._id;
+  const isOwn = owner._id === currentUser._id;
   const isLiked = likes.some(user => user._id === currentUser._id);
   const cardDeleteButtonClassName = ` ${
     isOwn ? "elements__trash" : "elements__trash elements__trash_hidden"
   }`;
   const cardLikeButtonClassName =`${
-    isLiked ? "elements__like elements__like_active" : "elements__like"
+    isLiked ? "elements__like elements__like_type_active" : "elements__like"
   }`
 
   function handleCardClick() {
@@ -19,13 +19,14 @@ export default function Card(props) {
     props.setActiveCard(props.item);
   }
   function handleLikeClick(){
-    props.onCardLike()
-    props.setActiveCard(props.item)
-    props.card(props.item)
+    props.onCardLike(props.item)
+  }
+  function handleDeleteClick(){
+    props.onCardDelete(_id)
   }
   return (
     <div className="elements__block">
-      <button className={cardDeleteButtonClassName}></button>
+      <button className={cardDeleteButtonClassName} onClick= {handleDeleteClick}></button>
       <div
         className="elements__cover"
         style={{ backgroundImage: `url(${link})` }}
