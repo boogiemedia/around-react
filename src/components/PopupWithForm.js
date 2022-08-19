@@ -8,7 +8,7 @@ export default function PopupWithForm(props) {
           : `popup popup_type_${props.name}`
       }
     >
-      <form method="post" name={props.name} className="popup__form">
+      <form method="post" name={props.name} className="popup__form" onSubmit= {props.onSubmit}>
         <button
           onClick={props.onClose}
           type="button"

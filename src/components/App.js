@@ -45,6 +45,9 @@ function App() {
     setImagePopup(false);
   }
   //................ end Of Close Button.................................................
+  function handleUpdateUser(info) {
+    api.setUserInfo(info).then((res)=> setCurentUser(res)).then((res)=> handleCloseButtonClick())
+  }
 
   //................preview.............................
   const [activeCard, setActiveCard] = useState({});
@@ -74,7 +77,7 @@ function App() {
       <Footer />
       <EditAvatarPopup isOpen={isAvatarOpen}
         onClose={handleCloseButtonClick}/>
-      <EditProfilePopup isOpen= {isProfileOpen} onClose= {handleCloseButtonClick}/>
+      <EditProfilePopup isOpen= {isProfileOpen} onClose= {handleCloseButtonClick} onUpdateUser = {handleUpdateUser}/>
       <EditPlacePopup isOpen= {isCardOpen} onClose= {handleCloseButtonClick}/>
       <PreviewPopup />
       </CurrentUserContext.Provider>
