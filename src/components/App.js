@@ -6,21 +6,19 @@ import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-
-//.......popups import
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditPlacePopup from "./AddPlacePopup";
-// .......End of imports..........................
+// .......End of imports.........................................................................................................
 
 function App() {
   const [isCardOpen, setCardOpen] = useState(false);
   const [isAvatarOpen, setAvatarIsOpen] = useState(false);
   const [isProfileOpen, setProfileOpen] = useState(false);
   const [isImagePopupOpen, setImagePopup] = useState(false);
-  const [ currentUser, setCurentUser] = useState({})
+  const [currentUser, setCurentUser] = useState({});
   //.........end of states.......................................................................
- 
+
   function getApiData() {
     api
       .getUserInfo()
@@ -34,10 +32,8 @@ function App() {
   useEffect(() => {
     getApiData();
   }, []);
-
-
   //.................end of userinfo call......................................................
- 
+
   function handleCloseButtonClick() {
     setCardOpen(false);
     setAvatarIsOpen(false);
@@ -45,9 +41,19 @@ function App() {
     setImagePopup(false);
   }
   //................ end Of Close Button.................................................
+
   function handleUpdateUser(info) {
-    api.setUserInfo(info).then((res)=> setCurentUser(res)).then((res)=> handleCloseButtonClick())
+    api
+      .setUserInfo(info)
+      .then((res) => setCurentUser(res))
+      .then((res) => handleCloseButtonClick());
   }
+  function handleUpdateAvatar(avatar){
+    console.log(avatar)
+    api.changeAvatar(avatar).then((res)=>{setCurentUser(res)}).then(()=> handleCloseButtonClick())
+    
+  }
+
 
   //................preview.............................
   const [activeCard, setActiveCard] = useState({});
@@ -60,29 +66,33 @@ function App() {
       />
     );
   }
-  //..............CardLike..............................
-  
 
   return (
     <div className="App">
-     <CurrentUserContext.Provider value ={currentUser}>
-      <Header />
-      <Main
-        setActiveCard={setActiveCard}
-        setAvatarIsOpen={setAvatarIsOpen}
-        setProfileOpen={setProfileOpen}
-        setCardOpen={setCardOpen}
-        setImagePopup={setImagePopup}
-      />
-      <Footer />
-      <EditAvatarPopup isOpen={isAvatarOpen}
-        onClose={handleCloseButtonClick}/>
-      <EditProfilePopup isOpen= {isProfileOpen} onClose= {handleCloseButtonClick} onUpdateUser = {handleUpdateUser}/>
-      <EditPlacePopup isOpen= {isCardOpen} onClose= {handleCloseButtonClick}/>
-      <PreviewPopup />
+      <CurrentUserContext.Provider value={currentUser}>
+        <Header />
+        <Main
+          setActiveCard={setActiveCard}
+          setAvatarIsOpen={setAvatarIsOpen}
+          setProfileOpen={setProfileOpen}
+          setCardOpen={setCardOpen}
+          setImagePopup={setImagePopup}
+        />
+        <Footer />
+        <EditAvatarPopup
+          isOpen={isAvatarOpen}
+          onClose={handleCloseButtonClick}
+          onUpdateAvatar = {handleUpdateAvatar}
+        />
+        <EditProfilePopup
+          isOpen={isProfileOpen}
+          onClose={handleCloseButtonClick}
+          onUpdateUser={handleUpdateUser}
+        />
+        <EditPlacePopup isOpen={isCardOpen} onClose={handleCloseButtonClick} />
+        <PreviewPopup />
       </CurrentUserContext.Provider>
     </div>
   );
 }
-
 export default App;

@@ -63,7 +63,14 @@ class Api {
     })
       .then(this._getResponseData)
   }
-
+  changeAvatar(avatar){
+    return fetch(`${this._url}/users/me/avatar `,{
+      method: 'PATCH',
+      headers: {authorization: this._token, 'Content-Type': "application/json"},
+      body: JSON.stringify(avatar)
+    })
+    .then(this._getResponseData)
+  }
   //..................End of USER INFO Api...................................................................................................
 }
 
