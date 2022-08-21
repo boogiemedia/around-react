@@ -35,7 +35,7 @@ export default function EditProfilePopup(props) {
         required
         minLength="2"
         maxLength="40"
-        value={name}
+        defaultValue={name}
         onChange= {e=>setName(e.target.value)}
         
       />
@@ -50,7 +50,7 @@ export default function EditProfilePopup(props) {
         required
         minLength="2"
         maxLength="200"
-        value={description}
+        defaultValue={description}
         onChange= { e=> setDescription(e.target.value)}
       />
       <span
