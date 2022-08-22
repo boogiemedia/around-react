@@ -1,8 +1,8 @@
-class Api {
+export default class Api {
   constructor(options) {
-    this._url = options.baseUrl;
+    this._url = "https://around.nomoreparties.co/v1/group-12";
 
-    this._token = options.token;
+    this._token = "3b0591f5-8d80-48af-bfb2-1499d5045304";
   }
 
   _getResponseData(res) {
@@ -81,8 +81,3 @@ class Api {
   //..................End of USER INFO Api...................................................................................................
 }
 
-export const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/group-12",
-  token: "3b0591f5-8d80-48af-bfb2-1499d5045304",
-  "Content-Type": "application/json",
-});

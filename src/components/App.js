@@ -4,7 +4,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
-import { api } from "../utils/api";
+import Api  from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -19,7 +19,11 @@ function App() {
   const [isImagePopupOpen, setImagePopup] = useState(false);
   const [currentUser, setCurentUser] = useState({});
   //.........end of states.......................................................................
-
+  const api = new Api({
+    baseUrl: "https://around.nomoreparties.co/v1/group-12",
+    token: "3b0591f5-8d80-48af-bfb2-1499d5045304",
+    "Content-Type": "application/json",
+  });
   function getApiData() {
     api
       .getUserInfo()
@@ -67,7 +71,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    const isLiked = () => {card.likes.some((user) => user._id === currentUser._id)};
     const removeLike = api.deleteLike(card._id).then((newCard) => {
       setCards((state) =>
         state.map((currentCard) =>
