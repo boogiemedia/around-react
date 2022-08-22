@@ -1,4 +1,4 @@
-export default class Api {
+export default class {
   constructor(options) {
     this._url = "https://around.nomoreparties.co/v1/group-12";
 
