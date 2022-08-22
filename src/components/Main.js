@@ -1,29 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import { api } from "../utils/api";
+import React from "react";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  //..api states..............................
-  const [cards, setCards] = useState([]);
-
-  //..Get Cards Api.........
-  function getApiData() {
-    //......Cards info
-    api
-      .getInitialCards()
-      .then((cards) => {
-        setCards(cards);
-      })
-      .catch((cards) => console.log("there is error in cards api", cards));
-    //......Get Profile Info
-  }
-  useEffect(() => {
-    getApiData();
-  }, []);
-
-  //........................End of api..........................
 
   function handleEditAvatarClick() {
     props.setAvatarIsOpen(true);
@@ -34,29 +14,6 @@ export default function Main(props) {
   function handleAddPlaceClick() {
     props.setCardOpen(true);
   }
-  function handleCardLike(card) {
-    const isLiked = card.likes.some((user) => user._id === currentUser._id);
-    const removeLike = api.deleteLike(card._id).then((newCard) => {
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === card._id ? newCard : currentCard
-        )
-      );
-    });
-    const addLike = api.addLike(card._id).then((newCard) => {
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === card._id ? newCard : currentCard
-        )
-      );
-    });
-    const changeLikeStatus = isLiked ? removeLike : addLike;
-  }
-  function handleCardDelete(id) {
-    api.deleteCard(id).then((res) => console.log(res))
-    console.log("delete button", id);
-  }
-  //.......................................end Of handlers.............
 
   return (
     <main className="main">
@@ -97,15 +54,15 @@ export default function Main(props) {
         ></button>
       </section>
       <section className="elements">
-        {cards.map((data) => {
+        {props.cards.map((data) => {
           return (
             <Card
               key={data._id}
               item={data}
               click={props.setImagePopup}
               setActiveCard={props.setActiveCard}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
+              onCardLike={props.onCardLike}
+              onCardDelete={props.onCardDelete}
             />
           );
         })}

@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 export default function EditPlacePopup(props) {
+  const [title, setTitle] = useState({});
+  const [link, setLink] = useState({});
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.onAddPlace({
+      name: title,
+      link: link,
+    });
+ 
+  }
   return (
     <PopupWithForm
       name="card-editor"
@@ -9,8 +20,10 @@ export default function EditPlacePopup(props) {
       button="Save"
       isOpen={props.isOpen}
       onClose={props.onClose}
+      onSubmit={handleSubmit}
     >
       <input
+        onChange={e => setTitle(e.target.value)}
         id="popup-input-type-title"
         className="popup__input popup__input_type_title"
         name="name"
@@ -26,6 +39,7 @@ export default function EditPlacePopup(props) {
       ></span>
 
       <input
+        onChange={e => setLink(e.target.value)}
         type="url"
         id="popup-input-type-url"
         className="popup__input popup__input_type_link"

@@ -12,6 +12,7 @@ import EditPlacePopup from "./AddPlacePopup";
 // .......End of imports.........................................................................................................
 
 function App() {
+  const [cards, setCards] = useState([]);
   const [isCardOpen, setCardOpen] = useState(false);
   const [isAvatarOpen, setAvatarIsOpen] = useState(false);
   const [isProfileOpen, setProfileOpen] = useState(false);
@@ -28,10 +29,18 @@ function App() {
       .catch((profile) =>
         console.log("there is error in profile api", profile)
       );
+    api
+      .getInitialCards()
+      .then((cards) => {
+        setCards(cards);
+      })
+      .catch((cards) => console.log("there is error in cards api", cards));
   }
+
   useEffect(() => {
     getApiData();
   }, []);
+
   //.................end of userinfo call......................................................
 
   function handleCloseButtonClick() {
@@ -48,13 +57,47 @@ function App() {
       .then((res) => setCurentUser(res))
       .then((res) => handleCloseButtonClick());
   }
-  function handleUpdateAvatar(avatar){
-    console.log(avatar)
-    api.changeAvatar(avatar).then((res)=>{setCurentUser(res)}).then(()=> handleCloseButtonClick())
-    
+  function handleUpdateAvatar(avatar) {
+    api
+      .changeAvatar(avatar)
+      .then((res) => {
+        setCurentUser(res);
+      })
+      .then(() => handleCloseButtonClick());
   }
 
-
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    const removeLike = api.deleteLike(card._id).then((newCard) => {
+      setCards((state) =>
+        state.map((currentCard) =>
+          currentCard._id === card._id ? newCard : currentCard
+        )
+      );
+    });
+    const addLike = api.addLike(card._id).then((newCard) => {
+      setCards((state) =>
+        state.map((currentCard) =>
+          currentCard._id === card._id ? newCard : currentCard
+        )
+      );
+    });
+    //const changeLikeStatus = isLiked ? removeLike : addLike;
+    console.log("test like", card);
+  }
+  function handleCardDelete(id) {
+    api
+      .deleteCard(id)
+      .then((id) => {
+        const newCards = cards.filter((card) => card._id !== id);
+        setCards(newCards);
+      })
+      .catch((id) => console.log("there is error in deleting card", id));
+  }
+  function handleAddPlaceSubmit(newCard) {
+    api.addNewCard(newCard).then((newCard) =>{setCards([newCard, ...cards]); }).then(() => handleCloseButtonClick()).catch((data)=>{console.log("there is an error in uploading photo")})
+  }
+  //................................End of Api calls..........................................
   //................preview.............................
   const [activeCard, setActiveCard] = useState({});
   function PreviewPopup() {
@@ -77,19 +120,27 @@ function App() {
           setProfileOpen={setProfileOpen}
           setCardOpen={setCardOpen}
           setImagePopup={setImagePopup}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
         <EditAvatarPopup
           isOpen={isAvatarOpen}
           onClose={handleCloseButtonClick}
-          onUpdateAvatar = {handleUpdateAvatar}
+          onUpdateAvatar={handleUpdateAvatar}
         />
         <EditProfilePopup
           isOpen={isProfileOpen}
           onClose={handleCloseButtonClick}
           onUpdateUser={handleUpdateUser}
         />
-        <EditPlacePopup isOpen={isCardOpen} onClose={handleCloseButtonClick} />
+        <EditPlacePopup
+          onAddPlace={handleAddPlaceSubmit}
+          isOpen={isCardOpen}
+          onClose={handleCloseButtonClick}
+          onUpdateUser ={handleAddPlaceSubmit}
+        />
         <PreviewPopup />
       </CurrentUserContext.Provider>
     </div>

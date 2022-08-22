@@ -10,8 +10,6 @@ class Api {
       return res.json();
     }
 
-    // if the server returns an error, reject the promise
-
     return Promise.reject(`Error: ${res.status}`);
   }
 
@@ -48,6 +46,15 @@ class Api {
     })
     .then(this._getResponseData)
   }
+  addNewCard(data){
+    return fetch(`${this._url}/cards`, {
+      method: 'POST',
+      headers: 
+      {authorization: this._token, 'Content-Type': "application/json"},
+      body: JSON.stringify (data)
+    })
+    .then(this._getResponseData)
+  } 
   //.......................End of cards api`s...................
 
   getUserInfo() {
