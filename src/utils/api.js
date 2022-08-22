@@ -1,4 +1,4 @@
-export default class {
+class Api {
   constructor(options) {
     this._url = "https://around.nomoreparties.co/v1/group-12";
 
@@ -79,5 +79,10 @@ export default class {
     .then(this._getResponseData)
   }
   //..................End of USER INFO Api...................................................................................................
-}
+}const api = new Api({
+  baseUrl: "https://around.nomoreparties.co/v1/group-12",
+  token: "3b0591f5-8d80-48af-bfb2-1499d5045304",
+  "Content-Type": "application/json",
+});
 
+export default api 
