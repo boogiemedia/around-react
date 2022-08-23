@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 export default function EditPlacePopup(props) {
@@ -11,8 +11,13 @@ export default function EditPlacePopup(props) {
       name: title,
       link: link,
     });
- 
+   
   }
+  useEffect(() => {
+    setTitle('');
+    setLink('');
+  }, [props.isOpen]);  
+
   return (
     <PopupWithForm
       name="card-editor"
@@ -23,6 +28,7 @@ export default function EditPlacePopup(props) {
       onSubmit={handleSubmit}
     >
       <input
+     value={title}
         onChange={e => setTitle(e.target.value)}
         id="popup-input-type-title"
         className="popup__input popup__input_type_title"
@@ -39,6 +45,7 @@ export default function EditPlacePopup(props) {
       ></span>
 
       <input
+      value={link}
         onChange={e => setLink(e.target.value)}
         type="url"
         id="popup-input-type-url"

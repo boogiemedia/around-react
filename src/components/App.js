@@ -4,7 +4,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
-import Api  from "../utils/api";
+import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -18,12 +18,9 @@ function App() {
   const [isProfileOpen, setProfileOpen] = useState(false);
   const [isImagePopupOpen, setImagePopup] = useState(false);
   const [currentUser, setCurentUser] = useState({});
+  const [activeCard, setActiveCard] = useState({});
   //.........end of states.......................................................................
-  const api = new Api({
-    baseUrl: "https://around.nomoreparties.co/v1/group-12",
-    token: "3b0591f5-8d80-48af-bfb2-1499d5045304",
-    "Content-Type": "application/json",
-  });
+
   function getApiData() {
     api
       .getUserInfo()
@@ -71,48 +68,46 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = () => {card.likes.some((user) => user._id === currentUser._id)};
-    const removeLike = api.deleteLike(card._id).then((newCard) => {
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === card._id ? newCard : currentCard
-        )
-      );
-    });
-    const addLike = api.addLike(card._id).then((newCard) => {
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === card._id ? newCard : currentCard
-        )
-      );
-    });
-    //const changeLikeStatus = isLiked ? removeLike : addLike;
-    console.log("test like", card);
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    if (!isLiked) {
+      api.addLike(card._id, !isLiked).then((newCard) => {
+        setCards((state) =>
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      });
+    } else {
+      api.deleteLike(card._id, isLiked).then((newCard) => {
+        setCards((state) =>
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      });
+    }
   }
   function handleCardDelete(id) {
+    const cardId = id;
     api
       .deleteCard(id)
       .then((id) => {
-        const newCards = cards.filter((card) => card._id !== id);
-        setCards(newCards);
+        setCards((state) => state.filter((card) => card._id !== cardId));
       })
       .catch((id) => console.log("there is error in deleting card", id));
   }
   function handleAddPlaceSubmit(newCard) {
-    api.addNewCard(newCard).then((newCard) =>{setCards([newCard, ...cards]); }).then(() => handleCloseButtonClick()).catch((data)=>{console.log("there is an error in uploading photo")})
+    api
+      .addNewCard(newCard)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+      })
+      .then(() => handleCloseButtonClick())
+      .catch((data) => {
+        console.log("there is an error in uploading photo");
+      });
   }
   //................................End of Api calls..........................................
-  //................preview.............................
-  const [activeCard, setActiveCard] = useState({});
-  function PreviewPopup() {
-    return (
-      <ImagePopup
-        onOpen={isImagePopupOpen}
-        onClose={handleCloseButtonClick}
-        item={activeCard}
-      />
-    );
-  }
 
   return (
     <div className="App">
@@ -143,9 +138,13 @@ function App() {
           onAddPlace={handleAddPlaceSubmit}
           isOpen={isCardOpen}
           onClose={handleCloseButtonClick}
-          onUpdateUser ={handleAddPlaceSubmit}
+          onUpdateUser={handleAddPlaceSubmit}
         />
-        <PreviewPopup />
+        <ImagePopup
+          onOpen={isImagePopupOpen}
+          onClose={handleCloseButtonClick}
+          item={activeCard}
+        />
       </CurrentUserContext.Provider>
     </div>
   );

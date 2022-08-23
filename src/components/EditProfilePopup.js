@@ -4,15 +4,14 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function EditProfilePopup(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  const [name, setName] = useState({})
-  const [ description , setDescription ] = useState({})
-  React.useEffect(() => {
+  const [name, setName] = useState({});
+  const [description, setDescription] = useState({});
+  useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]); 
-  
- 
-  function handleSubmit(e){
+  }, [currentUser]);
+
+  function handleSubmit(e) {
     e.preventDefault();
     props.onUpdateUser({
       name: name,
@@ -26,7 +25,7 @@ export default function EditProfilePopup(props) {
       button="Save"
       isOpen={props.isOpen}
       onClose={props.onClose}
-      onSubmit ={handleSubmit}
+      onSubmit={handleSubmit}
     >
       <input
         id="popup-input-type-name"
@@ -35,9 +34,8 @@ export default function EditProfilePopup(props) {
         required
         minLength="2"
         maxLength="40"
-        defaultValue={name}
-        onChange= {e=>setName(e.target.value)}
-        
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
       <span
         className="popup__input-span"
@@ -50,13 +48,13 @@ export default function EditProfilePopup(props) {
         required
         minLength="2"
         maxLength="200"
-        defaultValue={description}
-        onChange= { e=> setDescription(e.target.value)}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
       <span
         className="popup__input-span"
         id="popup-input-type-description-error"
       ></span>
-    </PopupWithForm > 
+    </PopupWithForm>
   );
 }
