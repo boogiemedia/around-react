@@ -55,41 +55,42 @@ function App() {
   function handleUpdateUser(info) {
     api
       .setUserInfo(info)
-      .then((res) => setCurentUser(res))
-      .catch((res) => console.log("there is a problem in setCurrent user", res))
-      .then((res) => handleCloseButtonClick())
-      .catch((res) => console.log("there is a problem in close button", res));
+      .then((res) => setCurentUser(res), handleCloseButtonClick())
+      .catch((res) => console.log("there is a problem in update user", res));
   }
   function handleUpdateAvatar(avatar) {
     api
       .changeAvatar(avatar)
-      .then((res) => {
-        setCurentUser(res);
-      }).catch((res)=> console.log("there is a problem in setCurrent user", res))
-      .then(() => handleCloseButtonClick())
+      .then((res) => setCurentUser(res), handleCloseButtonClick())
       .catch((res) =>
-        console.log("there is a problem in close button", res)
+        console.log("there is a problem in change avatar user", res)
       );
   }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
     if (!isLiked) {
-      api.addLike(card._id, !isLiked).then((newCard) => {
-        setCards((state) =>
-          state.map((currentCard) =>
-            currentCard._id === card._id ? newCard : currentCard
-          )
-        );
-      }).catch((res)=> console.log("there is a problem in like button", res));
+      api
+        .addLike(card._id, !isLiked)
+        .then((newCard) => {
+          setCards((state) =>
+            state.map((currentCard) =>
+              currentCard._id === card._id ? newCard : currentCard
+            )
+          );
+        })
+        .catch((res) => console.log("there is a problem in like button", res));
     } else {
-      api.deleteLike(card._id, isLiked).then((newCard) => {
-        setCards((state) =>
-          state.map((currentCard) =>
-            currentCard._id === card._id ? newCard : currentCard
-          )
-        );
-      }).catch((res)=> console.log("there is a problem in like button", res));
+      api
+        .deleteLike(card._id, isLiked)
+        .then((newCard) => {
+          setCards((state) =>
+            state.map((currentCard) =>
+              currentCard._id === card._id ? newCard : currentCard
+            )
+          );
+        })
+        .catch((res) => console.log("there is a problem in like button", res));
     }
   }
   function handleCardDelete(id) {
@@ -104,13 +105,12 @@ function App() {
   function handleAddPlaceSubmit(newCard) {
     api
       .addNewCard(newCard)
-      .then((newCard) => {
-        setCards([newCard, ...cards]);
-      })
-      .then(() => handleCloseButtonClick())
-      .catch((data) => {
-        console.log("there is an error in uploading photo");
-      });
+      .then((newCard) => 
+        setCards([newCard, ...cards]),handleCloseButtonClick().catch((res) =>
+          console.log("there is a problem in adding new cards", res)
+        )
+      )
+      
   }
   //................................End of Api calls..........................................
 

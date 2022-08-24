@@ -12,9 +12,11 @@ export default function EditAvatarPopup(props) {
     });
     
   }
+
   useEffect(() => {
     avatarRef.current.value = ""
   }, [props.isOpen])
+  
   return (
     <PopupWithForm
       name="change-avatar"
