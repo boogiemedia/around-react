@@ -55,13 +55,19 @@ function App() {
   function handleUpdateUser(info) {
     api
       .setUserInfo(info)
-      .then((res) => setCurentUser(res), handleCloseButtonClick())
+      .then((res) => {
+        setCurentUser(res);
+        handleCloseButtonClick();
+      })
       .catch((res) => console.log("there is a problem in update user", res));
   }
   function handleUpdateAvatar(avatar) {
     api
       .changeAvatar(avatar)
-      .then((res) => setCurentUser(res), handleCloseButtonClick())
+      .then((res) => {
+        setCurentUser(res);
+        handleCloseButtonClick();
+      })
       .catch((res) =>
         console.log("there is a problem in change avatar user", res)
       );
@@ -103,14 +109,12 @@ function App() {
       .catch((id) => console.log("there is error in deleting card", id));
   }
   function handleAddPlaceSubmit(newCard) {
-    api
-      .addNewCard(newCard)
-      .then((newCard) => 
-        setCards([newCard, ...cards]),handleCloseButtonClick().catch((res) =>
+    api.addNewCard(newCard).then((newCard) => {
+      setCards([newCard, ...cards])
+        handleCloseButtonClick().catch((res) =>
           console.log("there is a problem in adding new cards", res)
-        )
-      )
-      
+        );
+    });
   }
   //................................End of Api calls..........................................
 
