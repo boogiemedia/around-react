@@ -56,15 +56,20 @@ function App() {
     api
       .setUserInfo(info)
       .then((res) => setCurentUser(res))
-      .then((res) => handleCloseButtonClick());
+      .catch((res) => console.log("there is a problem in setCurrent user", res))
+      .then((res) => handleCloseButtonClick())
+      .catch((res) => console.log("there is a problem in close button", res));
   }
   function handleUpdateAvatar(avatar) {
     api
       .changeAvatar(avatar)
       .then((res) => {
         setCurentUser(res);
-      })
-      .then(() => handleCloseButtonClick());
+      }).catch((res)=> console.log("there is a problem in setCurrent user", res))
+      .then(() => handleCloseButtonClick())
+      .catch((res) =>
+        console.log("there is a problem in close button", res)
+      );
   }
 
   function handleCardLike(card) {
@@ -76,7 +81,7 @@ function App() {
             currentCard._id === card._id ? newCard : currentCard
           )
         );
-      });
+      }).catch((res)=> console.log("there is a problem in like button", res));
     } else {
       api.deleteLike(card._id, isLiked).then((newCard) => {
         setCards((state) =>
@@ -84,7 +89,7 @@ function App() {
             currentCard._id === card._id ? newCard : currentCard
           )
         );
-      });
+      }).catch((res)=> console.log("there is a problem in like button", res));
     }
   }
   function handleCardDelete(id) {
