@@ -16,7 +16,7 @@ export default function LoginSignup(props) {
       <button className='auth-form__button' type='submit'>
       {props.title}
       </button>
-      <p className='auth-form__footer-title'>Not a member yet? sign up here!</p>
+      <p className='auth-form__footer-title'>Not a member yet? {props.link} here!</p>
     </form>
   );
 }

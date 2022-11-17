@@ -131,13 +131,14 @@ function App() {
       <div className='App'>
         <CurrentUserContext.Provider value={currentUser}>
         <Routes>
-          <Route path='login'  element ={<Header page= "sign up"/>}/>
-          <Route path='login'  element ={<Header page= "log in"/>}/>
-          <Route path='login'  element ={<Header page= "sign" email="speedysokol@gmail.com"/>}/>
+          <Route path='login'  element ={<Header goTo= "sign up"/>}/>
+          <Route path='signup'  element ={<Header goTo= "log in"/>}/>
+          <Route path='/'  element ={<Header goTo= "Log out" email="speedysokol@gmail.com"/>}/>
 
           </Routes>
           <Routes>
-            <Route path='/login' element={<LoginSignup title="Log in"/>} />
+            <Route path='/login' element={<LoginSignup title="Log in" link= "Sign up" />} />
+            <Route path='/signup' element={<LoginSignup title="sign up" link= "Log in"/>} />
 
             <Route
               path='/'
