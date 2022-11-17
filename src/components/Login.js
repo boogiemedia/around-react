@@ -1,5 +1,5 @@
 import React from 'react';
-export default function LoginSignup(props) {
+export default function Login(props) {
   return (
     <form className='auth-form' method='post' >
       <h3 className='auth-form__title'>{props.title}</h3>

@@ -10,8 +10,6 @@
 /**************end of header*****************/
 @import url(./blocks/main/main.css);
 
-
-
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__avatar/profile__avatar.css);
 @import url(./blocks/profile/__info-block/profile__info-block.css);
@@ -35,12 +33,12 @@
 
 @import url(./blocks/elements/auth-form/auth-form.css);
 @import url(./blocks/elements/auth-form/__title/auth-form__title.css);
-
+@import url(./blocks/elements/auth-form/__title/auth-form__title_link.css);
 @import url(./blocks/elements/auth-form/__input/auth-form__input.css);
-
 @import url(./blocks/elements/auth-form/__button/auth-form__button.css);
-
+@import url(./blocks/elements/auth-form/__footer/auth-form__footer.css);
 @import url(./blocks/elements/auth-form/__footer-title/__button/auth-form__footer-title.css);
+
 /*******************end of authentication form******************/
 
 @import url(./blocks/popup/popup.css);
@@ -60,14 +58,14 @@
 @import url(./blocks/popup/__preview-box/popup__preview-box.css);
 @import url(./blocks/popup/__preview/popup__preview.css);
 @import url(./blocks/popup/__preview-text/popup__preview-text.css);
+@import url(./blocks/popup/__infoToolTip/popup__info-tool-tip.css);
+@import url(./blocks/popup/__infoToolTip/__icon/popup__info-tool-tip__icon.css);
+@import url(./blocks/popup/__infoToolTip/_type/_succees/popup__info-tool-tip_type_succes.css);
+@import url(./blocks/popup/__infoToolTip/_type/_error/popup__info-tool-tip_type_error.css);
+@import url(./blocks/popup/__infoToolTip/__text/popup__info-tool-tip__text.css);
 
 /************* end of Popup**********/
-
 
 @import url(./blocks/footer/__title/footer__title.css);
 
 /************* end of footer**********/
-
-
-
-

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../index.css';
 import Header from './Header';
 import Main from './Main';
-import LoginSignup from './LoginSignup';
+import Login from './Login';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
@@ -17,6 +17,8 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditPlacePopup from './AddPlacePopup';
 import ProtectedRoute from './ProtectedRoute';
+import InfoToolTip from './infoToolTip';
+import Signup from './Signup';
 // .......End of imports.........................................................................................................
 
 function App() {
@@ -27,6 +29,10 @@ function App() {
   const [isImagePopupOpen, setImagePopup] = useState(false);
   const [currentUser, setCurentUser] = useState({});
   const [activeCard, setActiveCard] = useState({});
+  const [isInfoToolTipOpen, setInfoToolTipOPen] = useState(false);
+  const [infoToolTipIcon, setInfoToolTipIcon] = useState('');
+  const [infoToolTipText, setInfoToolTipText] = useState('');
+
   //.........end of states.......................................................................
 
   function getApiData() {
@@ -57,6 +63,7 @@ function App() {
     setAvatarIsOpen(false);
     setProfileOpen(false);
     setImagePopup(false);
+    setInfoToolTipOPen(false);
   }
   //................ end Of Close Button.................................................
 
@@ -130,15 +137,31 @@ function App() {
     <Router>
       <div className='App'>
         <CurrentUserContext.Provider value={currentUser}>
-        <Routes>
-          <Route path='login'  element ={<Header goTo= "sign up"/>}/>
-          <Route path='signup'  element ={<Header goTo= "log in"/>}/>
-          <Route path='/'  element ={<Header goTo= "Log out" email="speedysokol@gmail.com"/>}/>
-
+          <Routes>
+            <Route path='login' element={<Header goTo='sign up' link='/signup'/>} />
+            <Route path='signup' element={<Header goTo='log in' link='/login'/>} />
+            <Route
+              path='/'
+              element={<Header goTo='Log out' link='/login' email='speedysokol@gmail.com' />}
+            />
           </Routes>
           <Routes>
-            <Route path='/login' element={<LoginSignup title="Log in" link= "Sign up" />} />
-            <Route path='/signup' element={<LoginSignup title="sign up" link= "Log in"/>} />
+            <Route
+              path='/login'
+              element={<Login title='Log in' link='Sign up' />}
+            />
+            <Route
+              path='/signup'
+              element={
+                <Signup
+                  registred={setInfoToolTipOPen}
+                  title='sign up'
+                  link='Log in'
+                  icon = {setInfoToolTipIcon}
+                  text = {setInfoToolTipText}
+                />
+              }
+            />
 
             <Route
               path='/'
@@ -178,6 +201,12 @@ function App() {
             onOpen={isImagePopupOpen}
             onClose={handleCloseButtonClick}
             item={activeCard}
+          />
+          <InfoToolTip
+            onClose={handleCloseButtonClick}
+            isOpen={isInfoToolTipOpen}
+            icon={infoToolTipIcon}
+            text={infoToolTipText}
           />
         </CurrentUserContext.Provider>
       </div>
