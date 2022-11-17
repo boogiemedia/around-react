@@ -30,6 +30,16 @@
 @import url(./blocks/elements/__like/_type/elements__like_type_active.css);
 /********************end of elements*****************************/
 
+@import url(./blocks/elements/auth-form/auth-form.css);
+@import url(./blocks/elements/auth-form/__title/auth-form__title.css);
+
+@import url(./blocks/elements/auth-form/__input/auth-form__input.css);
+
+@import url(./blocks/elements/auth-form/__button/auth-form__button.css);
+
+@import url(./blocks/elements/auth-form/__footer-title/__button/auth-form__footer-title.css);
+/*******************end of authentication form******************/
+
 @import url(./blocks/popup/popup.css);
 @import url(./blocks/popup/_oppened/popup_oppened.css);
 @import url(./blocks/popup/__close-button/popup__close-button.css);
