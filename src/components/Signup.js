@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Signup(props) {
-  const { email, setEmail } = useState('');
-  const { password, setpassword } = useState('');
+  const history = useNavigate();
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
     props.registred(true);
     props.icon('succes');
     props.text('succees! You have now been registred');
+    history('/login');
   };
   return (
     <form className='auth-form' method='post' onSubmit={handleSubmit}>
-      <h3 className='auth-form__title'>{props.title}</h3>
+      <h3 className='auth-form__title'>Sign up</h3>
       <input
         type='email'
         className='auth-form__input auth-form__input_type_email'
@@ -20,6 +22,8 @@ export default function Signup(props) {
         placeholder='email'
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        minLength='2'
+        maxLength='40'
       />
       <input
         type='password'
@@ -27,14 +31,22 @@ export default function Signup(props) {
         id='auth-form-input-type-description'
         placeholder='password'
         value={password}
-        onChange={(e) => setpassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
+        minLength='8'
+        maxLength='40'
       />
       <button className='auth-form__button' type='submit'>
-        {props.title}
+        Sign up
       </button>
       <div className='auth-form__footer'>
-      <p className='auth-form__footer-title'>Already a member?</p>
-      <Link to='/login' className='auth-form__footer-title auth-form__footer-title_link'> Log in here!</Link>
+        <p className='auth-form__footer-title'>Already a member?</p>
+        <Link
+          to='/login'
+          className='auth-form__footer-title auth-form__footer-title_link'
+        >
+          {' '}
+          Log in here!
+        </Link>
       </div>
     </form>
   );
