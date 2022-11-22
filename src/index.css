@@ -4,7 +4,12 @@
 /****************************************/
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__menu/header__menu.css);
+@import url(./blocks/header/__menu/_type/header__menu_tpye_hamburger.css);
+@import url(./blocks/header/__menu/_type/header__menu_tpye_close.css);
+
 @import url(./blocks/header/__header__side-bar/header__side-bar.css);
+@import url(./blocks/header/__header__side-bar/_type/_mobile/header__side-bar_type_mobile.css);
 @import url(./blocks/header/__header__side-bar/__email/header__side-bar__email.css);
 @import url(./blocks/header/__header__side-bar/__link/header__side-bar__link.css);
 /**************end of header*****************/

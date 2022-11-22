@@ -3,14 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export default function Signup(props) {
   const history = useNavigate();
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassword ] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.registred(true);
-    props.icon('succes');
-    props.text('succees! You have now been registred');
-    history('/login');
+    props.onRegistration(password, email);
   };
   return (
     <form className='auth-form' method='post' onSubmit={handleSubmit}>

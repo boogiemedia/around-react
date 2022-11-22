@@ -6,12 +6,7 @@ import Login from './Login';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Routes,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
@@ -19,7 +14,8 @@ import EditPlacePopup from './AddPlacePopup';
 import ProtectedRoute from './ProtectedRoute';
 import InfoToolTip from './infoToolTip';
 import Signup from './Signup';
-// .......End of imports.........................................................................................................
+import { register, authorize, checkToken } from '../utils/auth';
+// .......End of imports.............................. ...........................................................................
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -57,6 +53,29 @@ function App() {
   }, []);
 
   //.................end of userinfo call......................................................
+  function registration(email, password) {
+    register(email, password)
+      .then((res) => {
+        if (res.error !== undefined) {
+          console.log(res);
+          setInfoToolTipIcon('error');
+          setInfoToolTipText('Ooops,something went wrong! please try again.');
+          setInfoToolTipOPen(true);
+        } else {
+          console.log(res);
+          setInfoToolTipIcon('succes');
+          setInfoToolTipText('Succees! You have now been registred.');
+          setInfoToolTipOPen(true);
+        }
+      })
+      .catch((res) => {
+        console.log(res);
+        setInfoToolTipIcon('error');
+        setInfoToolTipText('Ooops,something went wrong! please try again.');
+        setInfoToolTipOPen(true);
+      });
+  }
+  //.................end of authentication.........................................................
 
   function handleCloseButtonClick() {
     setCardOpen(false);
@@ -138,11 +157,23 @@ function App() {
       <div className='App'>
         <CurrentUserContext.Provider value={currentUser}>
           <Routes>
-            <Route path='login' element={<Header goTo='sign up' link='/signup'/>} />
-            <Route path='signup' element={<Header goTo='log in' link='/login'/>} />
+            <Route
+              path='login'
+              element={<Header goTo='sign up' link='/signup' />}
+            />
+            <Route
+              path='signup'
+              element={<Header goTo='log in' link='/login' />}
+            />
             <Route
               path='/'
-              element={<Header goTo='Log out' link='/login' email='speedysokol@gmail.com' />}
+              element={
+                <Header
+                  goTo='Log out'
+                  link='/login'
+                  email='speedysokol@gmail.com'
+                />
+              }
             />
           </Routes>
           <Routes>
@@ -152,32 +183,26 @@ function App() {
             />
             <Route
               path='/signup'
-              element={
-                <Signup
-                  registred={setInfoToolTipOPen}
-                  title='sign up'
-                  link='Log in'
-                  icon = {setInfoToolTipIcon}
-                  text = {setInfoToolTipText}
-                />
-              }
+              element={<Signup onRegistration={registration} />}
             />
 
-            <Route
-              path='/'
-              element={
-                <Main
-                  setActiveCard={setActiveCard}
-                  setAvatarIsOpen={setAvatarIsOpen}
-                  setProfileOpen={setProfileOpen}
-                  setCardOpen={setCardOpen}
-                  setImagePopup={setImagePopup}
-                  cards={cards}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                />
-              }
-            />
+            <Route element={<ProtectedRoute />}>
+              <Route
+                path='/'
+                element={
+                  <Main
+                    setActiveCard={setActiveCard}
+                    setAvatarIsOpen={setAvatarIsOpen}
+                    setProfileOpen={setProfileOpen}
+                    setCardOpen={setCardOpen}
+                    setImagePopup={setImagePopup}
+                    cards={cards}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
+                  />
+                }
+              />
+            </Route>
           </Routes>
 
           <Footer />

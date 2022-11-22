@@ -1,22 +1,50 @@
-import React from 'react';
-export default function Login(props) {
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+export default function Signup(props) {
+  const history = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.onRegistration(password, email);
+  };
   return (
-    <form className='auth-form' method='post' >
-      <h3 className='auth-form__title'>{props.title}</h3>
+    <form className='auth-form' method='post' onSubmit={handleSubmit}>
+      <h3 className='auth-form__title'>Log in</h3>
       <input
         type='email'
         className='auth-form__input auth-form__input_type_email'
-        id='auth-form-input-type-description' placeholder='email'
+        id='auth-form-input-type-description'
+        placeholder='email'
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        minLength='2'
+        maxLength='40'
       />
       <input
         type='password'
         className='auth-form__input auth-form__input_type_password'
-        id='auth-form-input-type-description' placeholder='password'
+        id='auth-form-input-type-description'
+        placeholder='password'
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        minLength='8'
+        maxLength='40'
       />
       <button className='auth-form__button' type='submit'>
-      {props.title}
+        Log in
       </button>
-      <p className='auth-form__footer-title'>Not a member yet? {props.link} here!</p>
+      <div className='auth-form__footer'>
+        <p className='auth-form__footer-title'>Still not a member?</p>
+        <Link
+          to='/signup'
+          className='auth-form__footer-title auth-form__footer-title_link'
+        >
+          {' '}
+          Sign up here!
+        </Link>
+      </div>
     </form>
   );
 }
