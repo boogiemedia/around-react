@@ -1,9 +1,16 @@
 import { React, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Header(props) {
+  const navigate = useNavigate;
   const [mobileMenu, setMobileMenu] = useState(false);
   const [size, setsize] = useState([window.innerWidth]);
+  function logOut() {
+    if (props.goTo === 'Log out') {
+      localStorage.removeItem('jwt');
+      navigate('/login');
+    }
+  }
 
   useEffect(() => {
     function sizeMetter() {
@@ -32,7 +39,11 @@ export default function Header(props) {
       </div>
       <div className={`header__side-bar${!mobileMenu ? '' : '_type_mobile'}`}>
         <p className='header__side-bar__email'>{props.email}</p>
-        <Link to={props.link} className='header__side-bar__link'>
+        <Link
+          to={props.link}
+          className='header__side-bar__link'
+          onClick={logOut}
+        >
           {props.goTo}
         </Link>
       </div>

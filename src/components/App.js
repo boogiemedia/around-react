@@ -32,13 +32,19 @@ function App() {
   const [user, setUser] = useState('');
 
   //.........end of states.......................................................................
-  jwtCheck();
 
   function jwtCheck() {
     checkToken(localStorage.jwt).then((res) => {
-      if (res) {
-        setLoggedIn(true);
-        setUser(res.data.email);
+      if (localStorage.jwt) {
+        if (res.data !== undefined) {
+          console.log(res);
+          setLoggedIn(true);
+          console.log('true token', res.data);
+          setUser(res.data.email);
+        } else {
+          setLoggedIn(false);
+          console.log('errror', res);
+        }
       }
     });
   }
@@ -65,7 +71,7 @@ function App() {
   useEffect(() => {
     getApiData();
   }, []);
-
+  jwtCheck();
   //.................end of userinfo call......................................................
   function registration(email, password) {
     register(email, password)
