@@ -7,7 +7,9 @@ export default function Signup(props) {
   const [password, setPassword] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.onRegistration(password, email);
+    props.onAutharization(password, email).then(() => {
+      history('/login');
+    });
   };
   return (
     <form className='auth-form' method='post' onSubmit={handleSubmit}>

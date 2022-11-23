@@ -28,8 +28,22 @@ function App() {
   const [isInfoToolTipOpen, setInfoToolTipOPen] = useState(false);
   const [infoToolTipIcon, setInfoToolTipIcon] = useState('');
   const [infoToolTipText, setInfoToolTipText] = useState('');
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState('');
 
   //.........end of states.......................................................................
+  jwtCheck();
+
+  function jwtCheck() {
+    checkToken(localStorage.jwt).then((res) => {
+      if (res) {
+        setLoggedIn(true);
+        setUser(res.data.email);
+      }
+    });
+  }
+
+  //................end of token check..........................
 
   function getApiData() {
     api
@@ -56,7 +70,7 @@ function App() {
   function registration(email, password) {
     register(email, password)
       .then((res) => {
-        if (res.error !== undefined) {
+        if (res.error) {
           console.log(res);
           setInfoToolTipIcon('error');
           setInfoToolTipText('Ooops,something went wrong! please try again.');
@@ -75,6 +89,22 @@ function App() {
         setInfoToolTipOPen(true);
       });
   }
+  function login(email, password) {
+    authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          console.log('succed');
+          setLoggedIn(true);
+        }
+      })
+      .catch((res) => {
+        console.log(res);
+        setInfoToolTipIcon('error');
+        setInfoToolTipText('Ooops,something went wrong! please try again.');
+        setInfoToolTipOPen(true);
+      });
+  }
+  function signOut() {}
   //.................end of authentication.........................................................
 
   function handleCloseButtonClick() {
@@ -137,7 +167,7 @@ function App() {
     const cardId = id;
     api
       .deleteCard(id)
-      .then((id) => {
+      .then(() => {
         setCards((state) => state.filter((card) => card._id !== cardId));
       })
       .catch((id) => console.log('there is error in deleting card', id));
@@ -167,26 +197,27 @@ function App() {
             />
             <Route
               path='/'
-              element={
-                <Header
-                  goTo='Log out'
-                  link='/login'
-                  email='speedysokol@gmail.com'
-                />
-              }
+              element={<Header goTo='Log out' link='/login' email={user} />}
             />
           </Routes>
           <Routes>
             <Route
               path='/login'
-              element={<Login title='Log in' link='Sign up' />}
+              element={
+                <Login
+                  title='Log in'
+                  link='Sign up'
+                  onAutharization={login}
+                  onLogin={isLoggedIn}
+                />
+              }
             />
             <Route
               path='/signup'
-              element={<Signup onRegistration={registration} />}
+              element={<Signup onAutharization={registration} />}
             />
 
-            <Route element={<ProtectedRoute />}>
+            <Route element={<ProtectedRoute onLogin={isLoggedIn} />}>
               <Route
                 path='/'
                 element={
